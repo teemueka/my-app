@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 
 const SingleView = ({selectedItem, setSelectedItem }) => {
   const renderMediaContent = () => {
@@ -28,6 +28,11 @@ const SingleView = ({selectedItem, setSelectedItem }) => {
       </article>
     </dialog>
   );
+};
+
+SingleView.propTypes = {
+  selectedItem: PropTypes.object,
+  setSelectedItem: PropTypes.func.isRequired,
 };
 
 export default SingleView;
