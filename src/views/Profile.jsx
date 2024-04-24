@@ -7,9 +7,13 @@ const Profile = () => {
 
   useEffect(() => {
     const getUser = async () => {
-      const token = localStorage.getItem('token');
-      const userData = await getUserByToken(token);
-      setUser(userData.user);
+      try {
+        const token = localStorage.getItem('token');
+        const userData = await getUserByToken(token);
+        setUser(userData.user);
+      } catch (error) {
+        console.log(error.message);
+      }
     };
     getUser();
   }, []);
@@ -19,8 +23,10 @@ const Profile = () => {
     <div>
       {user && (
         <>
-          <p>Käyttäjätunnus: {user.username}</p>
-          </>
+          <p>Käyttäjätunnus: {user.username} </p>
+          <p>email: {user.email} </p>
+          <p>luotu: {new Date(user.created_at).toLocaleString('fi-FI')}</p>
+        </>
       )}
     </div>
     </div>
