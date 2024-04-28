@@ -22,7 +22,6 @@ const MediaRow = ({ item, setSelectedItem }) => {
 
 MediaRow.propTypes = {
   item: PropTypes.object.isRequired,
-  setSelectedItem: PropTypes.func.isRequired
 };
 
 export default MediaRow;
