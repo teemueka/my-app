@@ -1,24 +1,43 @@
-import {Route, BrowserRouter as Router, Routes} from 'react-router-dom';
-import Layout from './views/Layout';
+import './App.css';
 import Home from './views/Home';
-import Upload from "./views/Upload.jsx";
-import Single from "./views/Single.jsx";
-import Profile from "./views/Profile.jsx";
-import Login from "./views/Login.jsx";
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Profile } from './views/Profile';
+import Upload from './views/Upload';
+import Layout from './views/Layout';
+import Single from './views/Single';
+import Login from './views/Login';
+import { UserProvider } from './contexts/UserContext';
+import HandleAutoLogin from './components/HandleAutoLogin';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const App = () => {
+  const basename = import.meta.env.BASE_URL
+  console.log("basename", basename)
+
   return (
-    <Router basename={import.meta.env.BASE_URL}>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/single" element={<Single />} />
-          <Route path="/upload" element={<Upload />} />
-          <Route path="/login" element={<Login/>}/>
-        </Route>
-      </Routes>
+    <Router basename={basename}>
+      <UserProvider>
+        <HandleAutoLogin />
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="/profile" element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            } />
+            <Route path="/upload" element={
+              <ProtectedRoute>
+                <Upload />
+              </ProtectedRoute>
+            } />
+            <Route path="/media/:id" element={<Single />} />
+            <Route path="/login" element={<Login />} />
+          </Route>
+        </Routes>
+      </UserProvider>
     </Router>
   );
 };
+
 export default App;
